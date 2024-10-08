@@ -8,7 +8,7 @@
       <p><strong>Timezone:</strong> {{ user.preferences.timezone }}</p>
       <p><strong>Is Active?</strong> {{ user.isActive ? 'Yes' : 'No' }}</p>
       <p><strong>Last Updated At:</strong> {{ user.lastUpdatedAt }}</p>
-      <p><strong>Created At:</strong> {{ user.createdAt }}</p>
+      <p><strong>Created At:</strong> {{ formatTimestamp(user.created_ts) }}</p>
 
       <!-- Edit and Delete Actions -->
       <button @click="openEditModal">Edit</button>
@@ -16,12 +16,7 @@
     </div>
 
     <!-- Edit User Modal -->
-    <UserModal
-      v-if="showEditModal"
-      :user="user"
-      @close="showEditModal = false"
-      @save="updateUser"
-    />
+    <UserModal v-if="showEditModal" :user="user" @close="showEditModal = false" @save="updateUser" />
   </div>
 </template>
 
@@ -54,6 +49,10 @@ export default {
       }).catch(error => {
         console.error("Error fetching user:", error);
       });
+    },
+    formatTimestamp(timestamp) {
+      const date = new Date(timestamp * 1000);
+      return date.toLocaleString();
     },
     openEditModal() {
       this.showEditModal = true;
