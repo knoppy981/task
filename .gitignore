@@ -1,0 +1,4 @@
+/venv
+.env
+/my-vue-app/node_modules
+**/__pycache__
